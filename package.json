@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "body-parser": "^1.20.3",
+<<<<<<< HEAD
     "cors": "^2.8.5",
+=======
+>>>>>>> ee0f9332605e4830dcc6d2a34ca8a0deb648694a
     "express": "^4.21.1",
     "jest": "^29.7.0",
     "sqlite3": "^5.1.7"

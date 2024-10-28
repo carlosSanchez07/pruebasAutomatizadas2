@@ -2,7 +2,11 @@ const User = require('../src/models/user');
 const db = require('../src/database');
 
 // Importar las funciones de validación de contraseñas
+<<<<<<< HEAD
 const isValidPassword = require('../src/validation'); // Ajusta la ruta según tu estructura de proyecto
+=======
+const { isValidPassword } = require('../src/routes'); // Ajusta la ruta según tu estructura de proyecto
+>>>>>>> ee0f9332605e4830dcc6d2a34ca8a0deb648694a
 
 beforeEach(async () => {
   await new Promise((resolve, reject) => {

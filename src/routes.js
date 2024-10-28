@@ -1,8 +1,13 @@
 const db = require('./database');
+<<<<<<< HEAD
 const isValidPassword = require('./validation');  
 
 module.exports = (app) => {
   
+=======
+
+module.exports = (app) => {
+>>>>>>> ee0f9332605e4830dcc6d2a34ca8a0deb648694a
   // Ruta para registrar un usuario
   app.post('/register', (req, res) => {
     const { username, password } = req.body;
@@ -39,4 +44,17 @@ module.exports = (app) => {
 
 // validation.js
 
+<<<<<<< HEAD
 
+=======
+// Función para validar la contraseña
+const isValidPassword = (password) => {
+  const hasMinLength = password.length > 6;
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  return hasMinLength && hasNumber && hasSpecialChar;
+};
+
+module.exports = { isValidPassword };  // Asegúrate de exportar la función
+>>>>>>> ee0f9332605e4830dcc6d2a34ca8a0deb648694a
