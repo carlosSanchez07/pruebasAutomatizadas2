@@ -15,10 +15,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Print Node.js and npm Versions
-        run: |
-          node -v
-          npm -v
+      - name: Install jest
+        run: npm install jest
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -27,6 +25,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Cambiar permisos de Jest
+        run: chmod +x ./node_modules/.bin/jest
 
       - name: Run tests
         run: npm test
