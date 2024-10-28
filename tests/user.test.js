@@ -1,6 +1,9 @@
 const User = require('../src/models/user');
 const db = require('../src/database');
 
+// Importar las funciones de validación de contraseñas
+const { isValidPassword } = require('../src/routes'); // Ajusta la ruta según tu estructura de proyecto
+
 beforeEach(async () => {
   await new Promise((resolve, reject) => {
     db.run('DELETE FROM users', [], (err) => {
@@ -10,9 +13,33 @@ beforeEach(async () => {
   });
 });
 
+// Pruebas para las funciones de validación de contraseñas
+describe('Validación de contraseñas', () => {
+  test('La contraseña debe ser válida si tiene más de 6 caracteres, al menos un número y un carácter especial', () => {
+    const validPassword = 'Password123!';
+    expect(isValidPassword(validPassword)).toBe(true);
+  });
+
+  test('La contraseña debe ser inválida si tiene menos de 6 caracteres', () => {
+    const shortPassword = 'Pass!';
+    expect(isValidPassword(shortPassword)).toBe(false);
+  });
+
+  test('La contraseña debe ser inválida si no tiene un número', () => {
+    const noNumberPassword = 'Password!';
+    expect(isValidPassword(noNumberPassword)).toBe(false);
+  });
+
+  test('La contraseña debe ser inválida si no tiene un carácter especial', () => {
+    const noSpecialCharPassword = 'Password123';
+    expect(isValidPassword(noSpecialCharPassword)).toBe(false);
+  });
+});
+
+// Prueba para crear un usuario en la base de datos
 test('Debería crear un usuario en la base de datos', async () => {
   const username = 'testuser';
-  const password = 'password123';
+  const password = 'password123!'; // Asegúrate de que esta contraseña cumpla con los requisitos
 
   // Función para insertar el usuario
   const createUser = (username, password) => {
@@ -45,11 +72,6 @@ test('Debería crear un usuario en la base de datos', async () => {
   // Afirmaciones
   expect(users.length).toBe(1); // Espera que haya un usuario
   expect(users[0].username).toBe(username); // Verifica que el nombre de usuario sea correcto
-});
-
-test('La contraseña debe tener al menos 6 caracteres', () => {
-  const password = 'PASSWORD';
-  expect(password.length).toBeGreaterThanOrEqual(6);
 });
 
 // Hook para cerrar la base de datos después de todas las pruebas

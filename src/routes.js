@@ -4,8 +4,13 @@ module.exports = (app) => {
   // Ruta para registrar un usuario
   app.post('/register', (req, res) => {
     const { username, password } = req.body;
-    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
 
+    // Validar la contraseña
+    if (!isValidPassword(password)) {
+      return res.status(400).send('La contraseña debe tener al menos 6 caracteres, incluir al menos un número y un carácter especial.');
+    }
+
+    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
     db.run(query, [username, password], (err) => {
       if (err) {
         console.error('Error al registrar usuario:', err.message);
@@ -29,3 +34,16 @@ module.exports = (app) => {
     });
   });
 };
+
+// validation.js
+
+// Función para validar la contraseña
+const isValidPassword = (password) => {
+  const hasMinLength = password.length > 6;
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  return hasMinLength && hasNumber && hasSpecialChar;
+};
+
+module.exports = { isValidPassword };  // Asegúrate de exportar la función
