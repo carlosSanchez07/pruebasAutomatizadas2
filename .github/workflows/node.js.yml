@@ -1,39 +1,23 @@
-name: Node.js CI
+name: CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Chequear el código
         uses: actions/checkout@v2
 
-      - name: Install jest
-        run: npm install jest
-
-      - name: Install sqlite3
-        run: npm install sqlite3
-
-      - name: Install s
-        run: npm install node-pre-gyp
-
-      - name: Set up Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '14'
 
-      - name: Install dependencies
+      - name: Instalar dependencias
         run: npm install
 
-      - name: Cambiar permisos de Jest
-        run: chmod +x ./node_modules/.bin/jest
-
-      - name: Run tests
-        run: npm test
+      - name: Ejecutar pruebas en Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app -w /app node:14 npm test
